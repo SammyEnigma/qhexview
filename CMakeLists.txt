@@ -5,7 +5,17 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt5 5.0.0 REQUIRED Widgets )
+# has our consumer already detected Qt? If so, only look for that version, otherwise
+# prioritize 6
+if(QT_VERSION_MAJOR EQUAL 6)
+    find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
+elseif(QT_VERSION_MAJOR EQUAL 5)
+    find_package(QT NAMES Qt5 REQUIRED COMPONENTS Widgets)
+else()
+    find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+    find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+endif()
+
 
 add_library(QHexView
     qhexview.cpp
@@ -20,7 +30,7 @@ PUBLIC
 
 target_link_libraries(QHexView
 PUBLIC
-    Qt5::Widgets
+    Qt${QT_VERSION_MAJOR}::Widgets
 )
 
 set_target_properties(QHexView
