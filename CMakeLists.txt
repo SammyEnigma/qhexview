@@ -7,10 +7,8 @@ set(CMAKE_AUTOMOC ON)
 
 # has our consumer already detected Qt? If so, only look for that version, otherwise
 # prioritize 6
-if(QT_VERSION_MAJOR EQUAL 6)
-    find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
-elseif(QT_VERSION_MAJOR EQUAL 5)
-    find_package(QT NAMES Qt5 REQUIRED COMPONENTS Widgets)
+if(DEFINED QT_VERSION_MAJOR)
+    find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 else()
     find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
     find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
