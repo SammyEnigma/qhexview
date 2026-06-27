@@ -28,7 +28,7 @@ PUBLIC
 
 target_link_libraries(QHexView
 PUBLIC
-    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt::Widgets
 )
 
 set_target_properties(QHexView

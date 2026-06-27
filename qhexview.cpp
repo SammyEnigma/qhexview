@@ -38,11 +38,10 @@ The license chosen is at the discretion of the user of this software.
 namespace {
 
 /**
- * determines if a character has a printable ascii symbol
+ * @brief Determines if a character has a printable ascii symbol
  *
- * @brief is_printable
- * @param ch
- * @return
+ * @param ch The character to check
+ * @return True if the character is printable, false otherwise
  */
 constexpr bool is_printable(uint8_t ch) {
 
@@ -55,14 +54,14 @@ constexpr bool is_printable(uint8_t ch) {
 }
 
 /**
- * convenience function used to add a checkable menu item to the context menu
- *
- * @brief add_toggle_action_to_menu
- * @param menu
- * @param caption
- * @param checked
- * @param func
- * @return
+
+ * @brief Convenience function used to add a checkable menu item to the context menu
+
+ * @param menu The QMenu to which the action will be added
+ * @param caption The text that will be displayed for the action
+ * @param checked A boolean indicating whether the action should be initially checked
+ * @param func A callable (function, lambda, etc.) that will be connected to the action's toggled signal
+ * @return A pointer to the created QAction
  */
 template <class Func>
 QAction *add_toggle_action_to_menu(QMenu *menu, const QString &caption, bool checked, Func func) {
@@ -77,8 +76,9 @@ QAction *add_toggle_action_to_menu(QMenu *menu, const QString &caption, bool che
 }
 
 /**
- * @brief QHexView::QHexView
- * @param parent
+ * @brief Constructor for the QHexView class
+ *
+ * @param parent The parent widget for this QHexView instance. Defaults to nullptr if no parent is specified.
  */
 QHexView::QHexView(QWidget *parent)
 	: QAbstractScrollArea(parent) {
@@ -95,8 +95,9 @@ QHexView::QHexView(QWidget *parent)
 }
 
 /**
- * @brief QHexView::setShowAddressSeparator
- * @param value
+ * @brief Sets whether to show the address separator in the address field
+ *
+ * @param value A boolean indicating whether to show the address separator.
  */
 void QHexView::setShowAddressSeparator(bool value) {
 	showAddressSeparator_ = value;
@@ -104,9 +105,10 @@ void QHexView::setShowAddressSeparator(bool value) {
 }
 
 /**
- * @brief QHexView::formatAddress
- * @param address
- * @return
+ * @brief Formats an address into a QString representation based on the current address size and formatting options.
+ *
+ * @param address The address to format.
+ * @return A QString representing the formatted address.
  */
 QString QHexView::formatAddress(address_t address) const {
 
@@ -149,15 +151,16 @@ QString QHexView::formatAddress(address_t address) const {
 }
 
 /**
- * @brief QHexView::repaint
+ * @brief Repaints the viewport of the QHexView widget.
  */
 void QHexView::repaint() {
 	viewport()->repaint();
 }
 
 /**
- * @brief QHexView::dataSize
- * @return how much data we are viewing
+ * @brief Calculates the size of the data being viewed in the QHexView widget.
+ *
+ * @return The size of the data being viewed.
  */
 int64_t QHexView::dataSize() const {
 	return data_ ? data_->size() : 0;
@@ -165,26 +168,27 @@ int64_t QHexView::dataSize() const {
 
 /**
  *
- * @brief QHexView::setHideLeadingAddressZeros
- * @param value
+ * @brief Sets whether to hide leading zeros in the address display.
+ *
+ * @param value A boolean indicating whether to hide leading zeros.
  */
 void QHexView::setHideLeadingAddressZeros(bool value) {
 	hideLeadingAddressZeros_ = value;
 }
 
 /**
+ * @brief Gets whether leading zeros are hidden in the address display.
  *
- * @brief QHexView::hideLeadingAddressZeros
+ * @return True if leading zeros are hidden, false otherwise.
  */
 bool QHexView::hideLeadingAddressZeros() const {
 	return hideLeadingAddressZeros_;
 }
 
 /**
- * overloaded version of setFont, calculates font metrics for later
+ * @brief Overloaded version of setFont, calculates font metrics for later
  *
- * @brief QHexView::setFont
- * @param f
+ * @param f The QFont to set for the QHexView widget.
  */
 void QHexView::setFont(const QFont &f) {
 
@@ -211,10 +215,9 @@ void QHexView::setFont(const QFont &f) {
 }
 
 /**
- * creates the 'standard' context menu for the widget
+ * @brief Creates the 'standard' context menu for the widget
  *
- * @brief QHexView::createStandardContextMenu
- * @return
+ * @return A pointer to the created context menu
  */
 QMenu *QHexView::createStandardContextMenu() {
 
@@ -298,10 +301,9 @@ QMenu *QHexView::createStandardContextMenu() {
 }
 
 /**
- * default context menu event, simply shows standard menu
+ * @brief Default context menu event, simply shows standard menu
  *
- * @brief QHexView::contextMenuEvent
- * @param event
+ * @param event The context menu event that triggered this function
  */
 void QHexView::contextMenuEvent(QContextMenuEvent *event) {
 	QMenu *const menu = createStandardContextMenu();
@@ -310,8 +312,9 @@ void QHexView::contextMenuEvent(QContextMenuEvent *event) {
 }
 
 /**
- * @brief QHexView::normalizedOffset
- * @return
+ * @brief Calculates the normalized offset based on the current scrollbar value and the number of bytes per row.
+ *
+ * @return The normalized offset, which is the byte offset corresponding to the current scrollbar position.
  */
 int64_t QHexView::normalizedOffset() const {
 
@@ -328,7 +331,7 @@ int64_t QHexView::normalizedOffset() const {
 }
 
 /**
- * @brief QHexView::mnuCopy
+ * @brief Copies the selected bytes from the QHexView widget to the system clipboard.
  */
 void QHexView::mnuCopy() {
 	if (hasSelectedText()) {
@@ -387,9 +390,7 @@ void QHexView::mnuCopy() {
 }
 
 /**
- * Copy the starting address of the selected bytes
- *
- * @brief QHexView::mnuAddrCopy
+ * @brief Copies the starting address of the selected bytes to the system clipboard.
  */
 void QHexView::mnuAddrCopy() {
 	if (hasSelectedText()) {
@@ -403,18 +404,14 @@ void QHexView::mnuAddrCopy() {
 }
 
 /**
- * slot used to set the font of the widget based on dialog selector
- *
- * @brief QHexView::mnuSetFont
+ * @brief Slot used to set the font of the widget based on dialog selector
  */
 void QHexView::mnuSetFont() {
 	setFont(QFontDialog::getFont(nullptr, font(), this));
 }
 
 /**
- * clears all data from the view
- *
- * @brief QHexView::clear
+ * @brief Clears all data from the view
  */
 void QHexView::clear() {
 	data_ = nullptr;
@@ -422,7 +419,8 @@ void QHexView::clear() {
 }
 
 /**
- * @brief QHexView::hasSelectedText
+ * @brief Checks if any text is currently selected in the QHexView widget.
+ *
  * @return true if any text is selected
  */
 bool QHexView::hasSelectedText() const {
@@ -430,9 +428,10 @@ bool QHexView::hasSelectedText() const {
 }
 
 /**
- * @brief QHexView::isInViewableArea
- * @param index
- * @return true if the word at the given index is in the viewable area
+ * @brief Checks if the word at the given index is in the viewable area.
+ *
+ * @param index The index of the word to check
+ * @return true if the word is in the viewable area
  */
 bool QHexView::isInViewableArea(int64_t index) const {
 
@@ -445,8 +444,9 @@ bool QHexView::isInViewableArea(int64_t index) const {
 }
 
 /**
- * @brief QHexView::keyPressEvent
- * @param event
+ * @brief Handles key press events for the QHexView widget, allowing for navigation and selection of bytes.
+ *
+ * @param event The key event that triggered this function
  */
 void QHexView::keyPressEvent(QKeyEvent *event) {
 
@@ -514,7 +514,8 @@ void QHexView::keyPressEvent(QKeyEvent *event) {
 }
 
 /**
- * @brief QHexView::line3
+ * @brief Calculates the x coordinate of the 3rd line in the QHexView widget, which corresponds to the left edge of the comment field.
+ *
  * @return the x coordinate of the 3rd line
  */
 int QHexView::line3() const {
@@ -527,7 +528,8 @@ int QHexView::line3() const {
 }
 
 /**
- * @brief QHexView::line2
+ * @brief Calculates the x coordinate of the 2nd line in the QHexView widget, which corresponds to the left edge of the hex-dump field.
+ *
  * @return the x coordinate of the 2nd line
  */
 int QHexView::line2() const {
@@ -540,7 +542,8 @@ int QHexView::line2() const {
 }
 
 /**
- * @brief QHexView::line1
+ * @brief Calculates the x coordinate of the 1st line in the QHexView widget, which corresponds to the left edge of the address field.
+ *
  * @return the x coordinate of the 1st line
  */
 int QHexView::line1() const {
@@ -553,7 +556,8 @@ int QHexView::line1() const {
 }
 
 /**
- * @brief QHexView::hexDumpLeft
+ * @brief Calculates the x coordinate of the hex-dump field left edge in the QHexView widget.
+ *
  * @return the x coordinate of the hex-dump field left edge
  */
 int QHexView::hexDumpLeft() const {
@@ -561,7 +565,7 @@ int QHexView::hexDumpLeft() const {
 }
 
 /**
- * @brief QHexView::asciiDumpLeft
+ * @brief Calculates the x coordinate of the ascii-dump field left edge in the QHexView widget.
  * @return the x coordinate of the ascii-dump field left edge
  */
 int QHexView::asciiDumpLeft() const {
@@ -569,7 +573,7 @@ int QHexView::asciiDumpLeft() const {
 }
 
 /**
- * @brief QHexView::commentLeft
+ * @brief Calculates the x coordinate of the comment field left edge in the QHexView widget.
  * @return the x coordinate of the comment field left edge
  */
 int QHexView::commentLeft() const {
@@ -577,15 +581,17 @@ int QHexView::commentLeft() const {
 }
 
 /**
- * @brief QHexView::charsPerWord
- * @return how many characters each word takes up
+ * @brief Calculates the number of characters each word takes up in the QHexView widget.
+ *
+ * @return the number of characters per word
  */
 int QHexView::charsPerWord() const {
 	return wordWidth_ * 2;
 }
 
 /**
- * @brief QHexView::addressLen
+ * @brief Calculates the length in characters the address will take up.
+ *
  * @return the length in characters the address will take up
  */
 int QHexView::addressLength() const {
@@ -599,9 +605,7 @@ int QHexView::addressLength() const {
 }
 
 /**
- * calculates scrollbar maximum value base on lines total and lines viewable
- *
- * @brief QHexView::updateScrollbars
+ * @brief Updates the scrollbars based on the total number of lines and the number of lines currently viewable.
  */
 void QHexView::updateScrollbars() {
 	const int64_t sz = dataSize();
@@ -614,10 +618,9 @@ void QHexView::updateScrollbars() {
 }
 
 /**
- * scrolls view to given byte offset
+ * @brief Scrolls the view to the given byte offset.
  *
- * @brief QHexView::scrollTo
- * @param offset
+ * @param offset the byte offset to scroll to
  */
 void QHexView::scrollTo(address_t offset) {
 
@@ -636,10 +639,9 @@ void QHexView::scrollTo(address_t offset) {
 }
 
 /**
- * sets if we are to display the address column
+ * @brief Sets if we are to display the address column
  *
- * @brief QHexView::setShowAddress
- * @param show
+ * @param show A boolean indicating whether to show the address column
  */
 void QHexView::setShowAddress(bool show) {
 	showAddress_ = show;
@@ -648,10 +650,9 @@ void QHexView::setShowAddress(bool show) {
 }
 
 /**
- * sets if we are to display the hex-dump column
+ * @brief Sets if we are to display the hex-dump column
  *
- * @brief QHexView::setShowHexDump
- * @param show
+ * @param show A boolean indicating whether to show the hex-dump column
  */
 void QHexView::setShowHexDump(bool show) {
 	showHex_ = show;
@@ -660,10 +661,9 @@ void QHexView::setShowHexDump(bool show) {
 }
 
 /**
- * sets if we are to display the comments column
+ * @brief Sets if we are to display the comments column
  *
- * @brief QHexView::setShowComments
- * @param show
+ * @param show A boolean indicating whether to show the comments column
  */
 void QHexView::setShowComments(bool show) {
 	showComments_ = show;
@@ -672,10 +672,9 @@ void QHexView::setShowComments(bool show) {
 }
 
 /**
- * sets if we are to display the ascii-dump column
+ * @brief Sets if we are to display the ascii-dump column
  *
- * @brief QHexView::setShowAsciiDump
- * @param show
+ * @param show A boolean indicating whether to show the ascii-dump column
  */
 void QHexView::setShowAsciiDump(bool show) {
 	showAscii_ = show;
@@ -684,10 +683,9 @@ void QHexView::setShowAsciiDump(bool show) {
 }
 
 /**
- * sets the row width (units is words)
+ * @brief sets the row width (units is words)
  *
- * @brief QHexView::setRowWidth
- * @param rowWidth
+ * @param rowWidth the row width to set
  */
 void QHexView::setRowWidth(int rowWidth) {
 	Q_ASSERT(rowWidth >= 0);
@@ -697,10 +695,9 @@ void QHexView::setRowWidth(int rowWidth) {
 }
 
 /**
- * sets how many bytes represent a word
+ * @brief Sets how many bytes represent a word
  *
- * @brief QHexView::setWordWidth
- * @param wordWidth
+ * @param wordWidth the word width to set
  */
 void QHexView::setWordWidth(int wordWidth) {
 	Q_ASSERT(wordWidth >= 0);
@@ -710,18 +707,20 @@ void QHexView::setWordWidth(int wordWidth) {
 }
 
 /**
- * @brief QHexView::bytesPerRow
- * @return
+ * @brief Calculates the number of bytes per row based on the current row width and word width.
+ *
+ * @return the number of bytes per row
  */
 int QHexView::bytesPerRow() const {
 	return rowWidth_ * wordWidth_;
 }
 
 /**
- * @brief QHexView::pixelToWord
- * @param x
- * @param y
- * @return
+ * @brief Converts pixel coordinates to a word offset.
+ *
+ * @param x the x-coordinate in pixels
+ * @param y the y-coordinate in pixels
+ * @return the word offset
  */
 int64_t QHexView::pixelToWord(int x, int y) const {
 	int64_t word = -1;
@@ -780,7 +779,7 @@ int64_t QHexView::pixelToWord(int x, int y) const {
 }
 
 /**
- * @brief QHexView::updateToolTip
+ * @brief Updates the tooltip based on the currently selected bytes, displaying their range and values in different formats.
  */
 void QHexView::updateToolTip() {
 	if (selectedBytesSize() <= 0) {
@@ -810,13 +809,14 @@ void QHexView::updateToolTip() {
 }
 
 /**
- * @brief QHexView::mouseDoubleClickEvent
- * @param event
+ * @brief Handles mouse double-click events in the QHexView widget, allowing for selection of bytes based on the clicked position.
+ *
+ * @param event The mouse event that triggered this function
  */
 void QHexView::mouseDoubleClickEvent(QMouseEvent *event) {
 	if (event->button() == Qt::LeftButton) {
-		const int x = event->x() + horizontalScrollBar()->value() * fontWidth_;
-		const int y = event->y();
+		const int x = event->position().x() + horizontalScrollBar()->value() * fontWidth_;
+		const int y = event->position().y();
 		if (x >= line1() && x < line2()) {
 
 			highlighting_ = Highlighting::Data;
@@ -855,14 +855,15 @@ void QHexView::mouseDoubleClickEvent(QMouseEvent *event) {
 }
 
 /**
- * @brief QHexView::mousePressEvent
- * @param event
+ * @brief Handles mouse press events in the QHexView widget, allowing for selection of bytes based on the clicked position.
+ *
+ * @param event The mouse event that triggered this function
  */
 void QHexView::mousePressEvent(QMouseEvent *event) {
 
 	if (event->button() == Qt::LeftButton) {
-		const int x = event->x() + horizontalScrollBar()->value() * fontWidth_;
-		const int y = event->y();
+		const int x = event->position().x() + horizontalScrollBar()->value() * fontWidth_;
+		const int y = event->position().y();
 
 		if (x < line2()) {
 			highlighting_ = Highlighting::Data;
@@ -897,13 +898,14 @@ void QHexView::mousePressEvent(QMouseEvent *event) {
 }
 
 /**
- * @brief QHexView::mouseMoveEvent
- * @param event
+ * @brief Handles mouse move events in the QHexView widget, updating the selection based on the cursor position.
+ *
+ * @param event The mouse event that triggered this function
  */
 void QHexView::mouseMoveEvent(QMouseEvent *event) {
 	if (highlighting_ != Highlighting::None) {
-		const int x = event->x() + horizontalScrollBar()->value() * fontWidth_;
-		const int y = event->y();
+		const int x = event->position().x() + horizontalScrollBar()->value() * fontWidth_;
+		const int y = event->position().y();
 
 		const int64_t offset = pixelToWord(x, y);
 
@@ -939,8 +941,9 @@ void QHexView::mouseMoveEvent(QMouseEvent *event) {
 }
 
 /**
- * @brief QHexView::mouseReleaseEvent
- * @param event
+ * @brief Handles mouse release events in the QHexView widget, resetting the highlighting state.
+ *
+ * @param event The mouse event that triggered this function
  */
 void QHexView::mouseReleaseEvent(QMouseEvent *event) {
 	if (event->button() == Qt::LeftButton) {
@@ -949,16 +952,20 @@ void QHexView::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 /**
- * @brief QHexView::ensureVisible
- * @param index
+ * @brief Ensures that the byte at the given index is visible in the viewport. This function is currently a placeholder and does not implement any functionality.
+ *
+ * @param index The index of the byte to ensure visibility for.
  */
 void QHexView::ensureVisible(int64_t index) {
 	Q_UNUSED(index)
 }
 
 /**
- * @brief QHexView::setData
- * @param d
+ * @brief  Sets the data source for the QHexView widget. If the provided QIODevice is sequential or has no size,
+ * it reads all data into an internal buffer. Otherwise, it uses the provided QIODevice directly. It also
+ * updates the address size based on the data size and resets the selection and scrollbars.
+ *
+ * @param d A pointer to the QIODevice that serves as the data source for the QHexView widget.
  */
 void QHexView::setData(QIODevice *d) {
 	if (d->isSequential() || !d->size()) {
@@ -980,24 +987,28 @@ void QHexView::setData(QIODevice *d) {
 }
 
 /**
- * @brief QHexView::resizeEvent
+ * @brief Handles resize events for the QHexView widget, updating the scrollbars to accommodate the new size.
+ *
+ * @param event The resize event that triggered this function
  */
 void QHexView::resizeEvent(QResizeEvent *) {
 	updateScrollbars();
 }
 
 /**
- * @brief QHexView::setAddressOffset
- * @param offset
+ * @brief Sets the address offset for the QHexView widget, which is used to calculate the displayed addresses in the view.
+ *
+ * @param offset The address offset to set for the QHexView widget.
  */
 void QHexView::setAddressOffset(address_t offset) {
 	addressOffset_ = offset;
 }
 
 /**
- * @brief QHexView::isSelected
- * @param index
- * @return
+ * @brief Checks if the byte at the given index is currently selected in the QHexView widget.
+ *
+ * @param index The index of the byte to check for selection.
+ * @return true if the byte at the given index is selected, false otherwise.
  */
 bool QHexView::isSelected(int64_t index) const {
 
@@ -1015,11 +1026,12 @@ bool QHexView::isSelected(int64_t index) const {
 }
 
 /**
- * @brief QHexView::drawComments
- * @param painter
- * @param offset
- * @param row
- * @param size
+ * @brief Draws the comments associated with the given offset and row in the QHexView widget using the provided QPainter.
+ *
+ * @param painter The QPainter object used for drawing the comments.
+ * @param offset The offset in the data for which to draw comments.
+ * @param row The row number in the view where the comments should be drawn.
+ * @param size The total size of the data being viewed (unused in this function).
  */
 void QHexView::drawComments(QPainter &painter, int64_t offset, int row, int64_t size) const {
 
@@ -1040,11 +1052,12 @@ void QHexView::drawComments(QPainter &painter, int64_t offset, int row, int64_t 
 }
 
 /**
- * @brief QHexView::drawAsciiDumpToBuffer
- * @param stream
- * @param offset
- * @param size
- * @param row_data
+ * @brief Draws the ASCII dump of the data associated with the given offset and row in the QHexView widget using the provided QTextStream.
+ *
+ * @param stream The QTextStream object used for writing the ASCII dump.
+ * @param offset The offset in the data for which to draw the ASCII dump.
+ * @param size The total size of the data being viewed.
+ * @param row_data The QByteArray containing the data for the current row.
  */
 void QHexView::drawAsciiDumpToBuffer(QTextStream &stream, int64_t offset, int64_t size, const QByteArray &row_data) const {
 	// i is the byte index
@@ -1067,10 +1080,11 @@ void QHexView::drawAsciiDumpToBuffer(QTextStream &stream, int64_t offset, int64_
 }
 
 /**
- * @brief QHexView::drawCommentsToBuffer
- * @param stream
- * @param offset
- * @param size
+ * @brief Draws the comments associated with the given offset and row in the QHexView widget using the provided QTextStream.
+ *
+ * @param stream The QTextStream object used for writing the comments.
+ * @param offset The offset in the data for which to draw comments.
+ * @param size The total size of the data being viewed (unused in this function).
  */
 void QHexView::drawCommentsToBuffer(QTextStream &stream, int64_t offset, int64_t size) const {
 	Q_UNUSED(size)
@@ -1080,36 +1094,35 @@ void QHexView::drawCommentsToBuffer(QTextStream &stream, int64_t offset, int64_t
 }
 
 /**
- * formats bytes in a way that's suitable for rendering in a hexdump having
+ * @brief Formats bytes in a way that's suitable for rendering in a hexdump having
  * this as a separate function serves two purposes.
  * #1 no code duplication between the buffer and QPainter versions
- * #2 this encourages NRVO of the return value more than an integrated
+ * #2 this encourages NRVO of the return value more than an integrated function would
  *
- * @brief QHexView::formatBytes
- * @param row_data
- * @param index
- * @return
+ * @param row_data The QByteArray containing the data for the current row.
+ * @param index The index of the byte to format.
+ * @return The formatted byte as a QString.
  */
 QString QHexView::formatBytes(const QByteArray &row_data, int index) const {
 
 	char byte_buffer[32];
 
 	static constexpr char hex_bytes[] = "000102030405060708090a0b0c0d0e0f"
-									   "101112131415161718191a1b1c1d1e1f"
-									   "202122232425262728292a2b2c2d2e2f"
-									   "303132333435363738393a3b3c3d3e3f"
-									   "404142434445464748494a4b4c4d4e4f"
-									   "505152535455565758595a5b5c5d5e5f"
-									   "606162636465666768696a6b6c6d6e6f"
-									   "707172737475767778797a7b7c7d7e7f"
-									   "808182838485868788898a8b8c8d8e8f"
-									   "909192939495969798999a9b9c9d9e9f"
-									   "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf"
-									   "b0b1b2b3b4b5b6b7b8b9babbbcbdbebf"
-									   "c0c1c2c3c4c5c6c7c8c9cacbcccdcecf"
-									   "d0d1d2d3d4d5d6d7d8d9dadbdcdddedf"
-									   "e0e1e2e3e4e5e6e7e8e9eaebecedeeef"
-									   "f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff";
+										"101112131415161718191a1b1c1d1e1f"
+										"202122232425262728292a2b2c2d2e2f"
+										"303132333435363738393a3b3c3d3e3f"
+										"404142434445464748494a4b4c4d4e4f"
+										"505152535455565758595a5b5c5d5e5f"
+										"606162636465666768696a6b6c6d6e6f"
+										"707172737475767778797a7b7c7d7e7f"
+										"808182838485868788898a8b8c8d8e8f"
+										"909192939495969798999a9b9c9d9e9f"
+										"a0a1a2a3a4a5a6a7a8a9aaabacadaeaf"
+										"b0b1b2b3b4b5b6b7b8b9babbbcbdbebf"
+										"c0c1c2c3c4c5c6c7c8c9cacbcccdcecf"
+										"d0d1d2d3d4d5d6d7d8d9dadbdcdddedf"
+										"e0e1e2e3e4e5e6e7e8e9eaebecedeeef"
+										"f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff";
 
 	switch (wordWidth_) {
 	case 1:
@@ -1143,11 +1156,12 @@ QString QHexView::formatBytes(const QByteArray &row_data, int index) const {
 }
 
 /**
- * @brief QHexView::drawHexDumpToBuffer
- * @param stream
- * @param offset
- * @param size
- * @param row_data
+ * @brief Draws the hex dump of the data associated with the given offset and row in the QHexView widget using the provided QTextStream.
+ *
+ * @param stream The QTextStream object used for writing the hex dump.
+ * @param offset The offset in the data for which to draw the hex dump.
+ * @param size The total size of the data being viewed (unused in this function).
+ * @param row_data The QByteArray containing the data for the current row.
  */
 void QHexView::drawHexDumpToBuffer(QTextStream &stream, int64_t offset, int64_t size, const QByteArray &row_data) const {
 
@@ -1181,13 +1195,14 @@ void QHexView::drawHexDumpToBuffer(QTextStream &stream, int64_t offset, int64_t 
 }
 
 /**
- * @brief QHexView::drawHexDump
- * @param painter
- * @param offset
- * @param row
- * @param size
- * @param word_count
- * @param row_data
+ * @brief Draws the hex dump of the data associated with the given offset and row in the QHexView widget using the provided QPainter.
+ *
+ * @param painter The QPainter object used for drawing the hex dump.
+ * @param offset The offset in the data for which to draw the hex dump.
+ * @param row The row in the widget for which to draw the hex dump.
+ * @param size The total size of the data being viewed (unused in this function).
+ * @param word_count A pointer to an integer tracking the number of words drawn.
+ * @param row_data The QByteArray containing the data for the current row.
  */
 void QHexView::drawHexDump(QPainter &painter, int64_t offset, int row, int64_t size, int *word_count, const QByteArray &row_data) const {
 	const int hex_dump_left = hexDumpLeft();
@@ -1259,12 +1274,13 @@ void QHexView::drawHexDump(QPainter &painter, int64_t offset, int row, int64_t s
 }
 
 /**
- * @brief QHexView::drawAsciiDump
- * @param painter
- * @param offset
- * @param row
- * @param size
- * @param row_data
+ * @brief Draws the ASCII dump of the data associated with the given offset and row in the QHexView widget using the provided QPainter.
+ *
+ * @param painter The QPainter object used for drawing the ASCII dump.
+ * @param offset The offset in the data for which to draw the ASCII dump.
+ * @param row The row in the widget for which to draw the ASCII dump.
+ * @param size The total size of the data being viewed (unused in this function).
+ * @param row_data The QByteArray containing the data for the current row.
  */
 void QHexView::drawAsciiDump(QPainter &painter, int64_t offset, int row, int64_t size, const QByteArray &row_data) const {
 	const int ascii_dump_left = asciiDumpLeft();
@@ -1320,8 +1336,10 @@ void QHexView::drawAsciiDump(QPainter &painter, int64_t offset, int row, int64_t
 }
 
 /**
- * @brief QHexView::paintEvent
- * @param event
+ * @brief Handles the paint event for the QHexView widget, rendering the address,
+ * hex dump, ASCII dump, and comments based on the current state and settings of the widget.
+ *
+ * @param event The paint event that triggered this function
  */
 void QHexView::paintEvent(QPaintEvent *event) {
 
@@ -1408,7 +1426,7 @@ void QHexView::paintEvent(QPaintEvent *event) {
 }
 
 /**
- * @brief QHexView::selectAll
+ * @brief Selects all bytes in the QHexView widget.
  */
 void QHexView::selectAll() {
 	selectionStart_ = 0;
@@ -1416,7 +1434,7 @@ void QHexView::selectAll() {
 }
 
 /**
- * @brief QHexView::deselect
+ * @brief Deselects any selected bytes in the QHexView widget.
  */
 void QHexView::deselect() {
 	selectionStart_ = -1;
@@ -1424,8 +1442,9 @@ void QHexView::deselect() {
 }
 
 /**
- * @brief QHexView::allBytes
- * @return
+ * @brief Returns all bytes from the data source of the QHexView widget as a QByteArray.
+ *
+ * @return A QByteArray containing all the bytes from the data source.
  */
 QByteArray QHexView::allBytes() const {
 	data_->seek(0);
@@ -1433,8 +1452,9 @@ QByteArray QHexView::allBytes() const {
 }
 
 /**
- * @brief QHexView::selectedBytes
- * @return
+ * @brief Returns the currently selected bytes from the data source of the QHexView widget as a QByteArray.
+ *
+ * @return A QByteArray containing the currently selected bytes.
  */
 QByteArray QHexView::selectedBytes() const {
 	if (hasSelectedText()) {
@@ -1449,8 +1469,9 @@ QByteArray QHexView::selectedBytes() const {
 }
 
 /**
- * @brief QHexView::selectedBytesAddress
- * @return
+ * @brief Returns the address of the first byte in the currently selected range of bytes in the QHexView widget.
+ *
+ * @return The address of the first byte in the selected range, adjusted by the address offset. If no bytes are selected, returns the address corresponding to the minimum of selectionStart_ and selectionEnd_ plus the address offset.
  */
 auto QHexView::selectedBytesAddress() const -> address_t {
 	const address_t select_base = std::min(selectionStart_, selectionEnd_);
@@ -1458,8 +1479,9 @@ auto QHexView::selectedBytesAddress() const -> address_t {
 }
 
 /**
- * @brief QHexView::selectedBytesSize
- * @return
+ * @brief Returns the size of the currently selected range of bytes in the QHexView widget.
+ *
+ * @return The size of the selected range of bytes. If no bytes are selected, returns 0.
  */
 uint64_t QHexView::selectedBytesSize() const {
 
@@ -1474,64 +1496,72 @@ uint64_t QHexView::selectedBytesSize() const {
 }
 
 /**
- * @brief QHexView::addressOffset
- * @return
+ * @brief Returns the address offset of the QHexView widget.
+ *
+ * @return The address offset.
  */
 auto QHexView::addressOffset() const -> address_t {
 	return addressOffset_;
 }
 
 /**
- * @brief QHexView::showHexDump
- * @return
+ * @brief Returns whether the hex dump is currently being displayed in the QHexView widget.
+ *
+ * @return true if the hex dump is being displayed, false otherwise.
  */
 bool QHexView::showHexDump() const {
 	return showHex_;
 }
 
 /**
- * @brief QHexView::showAddress
- * @return
+ * @brief Returns whether the address column is currently being displayed in the QHexView widget.
+ *
+ * @return true if the address column is being displayed, false otherwise.
  */
 bool QHexView::showAddress() const {
 	return showAddress_;
 }
 
 /**
- * @brief QHexView::showAsciiDump
- * @return
+ * @brief Returns whether the ASCII dump is currently being displayed in the QHexView widget.
+ *
+ * @return true if the ASCII dump is being displayed, false otherwise.
  */
 bool QHexView::showAsciiDump() const {
 	return showAscii_;
 }
 
 /**
- * @brief QHexView::showComments
- * @return
+ * @brief Returns whether comments are currently being displayed in the QHexView widget.
+ *
+ * @return true if comments are being displayed, false otherwise.
  */
 bool QHexView::showComments() const {
 	return showComments_;
 }
 
 /**
- * @brief QHexView::wordWidth
- * @return
+ * @brief Returns the width of each word in the QHexView widget.
+ *
+ * @return The width of each word.
  */
 int QHexView::wordWidth() const {
 	return wordWidth_;
 }
 
 /**
- * @brief QHexView::rowWidth
- * @return
+ * @brief Returns the number of words displayed in each row of the QHexView widget.
+ *
+ * @return The number of words displayed in each row.
  */
 int QHexView::rowWidth() const {
 	return rowWidth_;
 }
 
 /**
- * @brief QHexView::firstVisibleAddress
- * @return
+ * @brief Returns the address of the first visible byte in the QHexView widget.
+ *
+ * @return The address of the first visible byte.
  */
 auto QHexView::firstVisibleAddress() const -> address_t {
 	// current actual offset (in bytes)
@@ -1540,8 +1570,9 @@ auto QHexView::firstVisibleAddress() const -> address_t {
 }
 
 /**
- * @brief QHexView::setAddressSize
- * @param address_size
+ * @brief Sets the address size for the QHexView widget, which determines how many bytes are used to represent addresses in the view.
+ *
+ * @param address_size The size of the address.
  */
 void QHexView::setAddressSize(AddressSize address_size) {
 	addressSize_ = address_size;
@@ -1549,40 +1580,45 @@ void QHexView::setAddressSize(AddressSize address_size) {
 }
 
 /**
- * @brief QHexView::addressSize
- * @return
+ * @brief Returns the current address size for the QHexView widget, which determines how many bytes are used to represent addresses in the view.
+ *
+ * @return The current address size.
  */
 QHexView::AddressSize QHexView::addressSize() const {
 	return addressSize_;
 }
 
 /**
- * @brief QHexView::setColdZoneEnd
- * @param offset
+ * @brief Sets the end of the cold zone in the QHexView widget, which is a region of the view that is visually distinguished from the rest of the data.
+ *
+ * @param offset The offset of the end of the cold zone.
  */
 void QHexView::setColdZoneEnd(address_t offset) {
 	coldZoneEnd_ = offset;
 }
 
 /**
- * @brief QHexView::userConfigWordWidth
- * @return
+ * @brief Returns whether the user is allowed to configure the word width in the QHexView widget.
+ *
+ * @return true if the user can configure the word width, false otherwise.
  */
 bool QHexView::userConfigWordWidth() const {
 	return userCanSetWordWidth_;
 }
 
 /**
- * @brief QHexView::userConfigRowWidth
- * @return
+ * @brief Returns whether the user is allowed to configure the row width in the QHexView widget.
+ *
+ * @return true if the user can configure the row width, false otherwise.
  */
 bool QHexView::userConfigRowWidth() const {
 	return userCanSetRowWidth_;
 }
 
 /**
- * @brief QHexView::setUserConfigWordWidth
- * @param value
+ * @brief Sets whether the user is allowed to configure the word width in the QHexView widget.
+ *
+ * @param value true to allow user configuration of word width, false to disallow it.
  */
 void QHexView::setUserConfigWordWidth(bool value) {
 	userCanSetWordWidth_ = value;
@@ -1590,8 +1626,9 @@ void QHexView::setUserConfigWordWidth(bool value) {
 }
 
 /**
- * @brief QHexView::setUserConfigRowWidth
- * @param value
+ * @brief Sets whether the user is allowed to configure the row width in the QHexView widget.
+ *
+ * @param value true to allow user configuration of row width, false to disallow it.
  */
 void QHexView::setUserConfigRowWidth(bool value) {
 	userCanSetRowWidth_ = value;
@@ -1599,64 +1636,72 @@ void QHexView::setUserConfigRowWidth(bool value) {
 }
 
 /**
- * @brief QHexView::addressColor
- * @return
+ * @brief Returns the color used to display addresses in the QHexView widget.
+ *
+ * @return The color used for addresses.
  */
 QColor QHexView::addressColor() const {
 	return addressColor_;
 }
 
 /**
- * @brief QHexView::coldZoneColor
- * @return
+ * @brief Returns the color used to display the cold zone in the QHexView widget.
+ *
+ * @return The color used for the cold zone.
  */
 QColor QHexView::coldZoneColor() const {
 	return coldZoneColor_;
 }
 
 /**
- * @brief QHexView::alternateWordColor
- * @return
+ * @brief Returns the color used to display alternate words in the QHexView widget.
+ *
+ * @return The color used for alternate words.
  */
 QColor QHexView::alternateWordColor() const {
 	return alternateWordColor_;
 }
 
 /**
- * @brief QHexView::nonPrintableTextColor
- * @return
+ * @brief Returns the color used to display non-printable text in the QHexView widget.
+ *
+ * @return The color used for non-printable text.
  */
 QColor QHexView::nonPrintableTextColor() const {
 	return nonPrintableTextColor_;
 }
 
 /**
- * @brief QHexView::setColdZoneColor
- * @param color
+ * @brief Sets the color used to display the cold zone in the QHexView widget.
+ *
+ * @param color The color to set for the cold zone.
  */
 void QHexView::setColdZoneColor(const QColor &color) {
 	coldZoneColor_ = color;
 }
 
 /**
- * @brief QHexView::setAddressColor
- * @param color
+ * @brief Sets the color used to display addresses in the QHexView widget.
+ *
+ * @param color The color to set for addresses.
  */
 void QHexView::setAddressColor(const QColor &color) {
 	addressColor_ = color;
 }
 
 /**
- * @brief QHexView::setEvenWordColor
- * @param color
+ * @brief Sets the color used to display alternate words in the QHexView widget.
+ *
+ * @param color The color to set for alternate words.
  */
 void QHexView::setAlternateWordColor(const QColor &color) {
 	alternateWordColor_ = color;
 }
 
 /**
- * @brief QHexView::setNonPrintableTextColor
- * @param color
+ * @brief Sets the color used to display non-printable text in the QHexView widget.
+ *
+ * @param color The color to set for non-printable text.
  */
 void QHexView::setNonPrintableTextColor(const QColor &color) {
 	nonPrintableTextColor_ = color;
