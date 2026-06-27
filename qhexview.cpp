@@ -815,8 +815,13 @@ void QHexView::updateToolTip() {
  */
 void QHexView::mouseDoubleClickEvent(QMouseEvent *event) {
 	if (event->button() == Qt::LeftButton) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 		const int x = event->position().x() + horizontalScrollBar()->value() * fontWidth_;
 		const int y = event->position().y();
+#else
+		const int x = event->x() + horizontalScrollBar()->value() * fontWidth_;
+		const int y = event->y();
+#endif
 		if (x >= line1() && x < line2()) {
 
 			highlighting_ = Highlighting::Data;
@@ -862,8 +867,13 @@ void QHexView::mouseDoubleClickEvent(QMouseEvent *event) {
 void QHexView::mousePressEvent(QMouseEvent *event) {
 
 	if (event->button() == Qt::LeftButton) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 		const int x = event->position().x() + horizontalScrollBar()->value() * fontWidth_;
 		const int y = event->position().y();
+#else
+		const int x = event->x() + horizontalScrollBar()->value() * fontWidth_;
+		const int y = event->y();
+#endif
 
 		if (x < line2()) {
 			highlighting_ = Highlighting::Data;
@@ -904,9 +914,13 @@ void QHexView::mousePressEvent(QMouseEvent *event) {
  */
 void QHexView::mouseMoveEvent(QMouseEvent *event) {
 	if (highlighting_ != Highlighting::None) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 		const int x = event->position().x() + horizontalScrollBar()->value() * fontWidth_;
 		const int y = event->position().y();
-
+#else
+		const int x = event->x() + horizontalScrollBar()->value() * fontWidth_;
+		const int y = event->y();
+#endif
 		const int64_t offset = pixelToWord(x, y);
 
 		if (selectionStart_ != -1) {
