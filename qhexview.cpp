@@ -90,7 +90,7 @@ QHexView::QHexView(QWidget *parent)
 #endif
 
 	// default to a simple monospace font
-	setFont(QFont("Monospace", 8));
+	setFont(QFont(QStringLiteral("Monospace"), 8));
 	setShowAddressSeparator(true);
 }
 
@@ -204,7 +204,7 @@ void QHexView::setFont(const QFont &f) {
 #endif
 	// recalculate all of our metrics/offsets
 	const QFontMetrics fm(font);
-	fontWidth_ = fm.horizontalAdvance('X');
+	fontWidth_ = fm.horizontalAdvance(QLatin1Char('X'));
 
 	fontHeight_ = fm.height();
 
@@ -395,7 +395,7 @@ void QHexView::mnuCopy() {
 void QHexView::mnuAddrCopy() {
 	if (hasSelectedText()) {
 
-		auto s = QString("0x%1").arg(selectedBytesAddress(), 0, 16);
+		auto s = QStringLiteral("0x%1").arg(selectedBytesAddress(), 0, 16);
 		QApplication::clipboard()->setText(s);
 
 		// TODO(eteran): do we want to trample the X11-selection too?
@@ -791,19 +791,19 @@ void QHexView::updateToolTip() {
 	const address_t end   = selectedBytesAddress() + sb.size();
 
 	auto data       = reinterpret_cast<uchar *>(sb.data());
-	QString tooltip = QString("<p style='white-space:pre'>") // prevent word wrap
-					  % QString("<b>Range: </b>") % formatAddress(start) % " - " % formatAddress(end);
+	QString tooltip = QStringLiteral("<p style='white-space:pre'>") // prevent word wrap
+					  % QStringLiteral("<b>Range: </b>") % formatAddress(start) % QStringLiteral(" - ") % formatAddress(end);
 
 	switch (sb.size()) {
 	case sizeof(quint32):
-		tooltip += QString("<br><b>UInt32:</b> ") % QString::number(qFromLittleEndian<quint32>(data)) % QString("<br><b>Int32:</b> ") % QString::number(qFromLittleEndian<qint32>(data));
+		tooltip += QStringLiteral("<br><b>UInt32:</b> ") % QString::number(qFromLittleEndian<quint32>(data)) % QStringLiteral("<br><b>Int32:</b> ") % QString::number(qFromLittleEndian<qint32>(data));
 		break;
 	case sizeof(quint64):
-		tooltip += QString("<br><b>UInt64:</b> ") % QString::number(qFromLittleEndian<quint64>(data)) % QString("<br><b>Int64</b> ") % QString::number(qFromLittleEndian<qint64>(data));
+		tooltip += QStringLiteral("<br><b>UInt64:</b> ") % QString::number(qFromLittleEndian<quint64>(data)) % QStringLiteral("<br><b>Int64</b> ") % QString::number(qFromLittleEndian<qint64>(data));
 		break;
 	}
 
-	tooltip += "</p>";
+	tooltip += QStringLiteral("</p>");
 
 	setToolTip(tooltip);
 }
@@ -1196,7 +1196,7 @@ void QHexView::drawHexDumpToBuffer(QTextStream &stream, int64_t offset, int64_t 
 			if (isSelected(index)) {
 				stream << byteBuffer;
 			} else {
-				stream << QString(byteBuffer.length(), ' ');
+				stream << QString(byteBuffer.length(), QLatin1Char(' '));
 			}
 
 			if (i != (rowWidth_ - 1)) {
@@ -1334,7 +1334,7 @@ void QHexView::drawAsciiDump(QPainter &painter, int64_t offset, int row, int64_t
 				}
 			}
 
-			const QString byteBuffer(printable ? ch : unprintableChar_);
+			const QString byteBuffer(printable ? QLatin1Char(ch) : QLatin1Char(unprintableChar_));
 
 			painter.drawText(
 				drawLeft,

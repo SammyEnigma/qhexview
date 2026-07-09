@@ -31,6 +31,10 @@ PUBLIC
     Qt::Widgets
 )
 
+add_definitions(-DQT_NO_CAST_FROM_ASCII)
+add_definitions(-DQT_NO_CAST_TO_ASCII)
+add_definitions(-DQT_NO_KEYWORDS)
+
 set_target_properties(QHexView
     PROPERTIES
     CXX_EXTENSIONS OFF
