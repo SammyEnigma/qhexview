@@ -1334,7 +1334,7 @@ void QHexView::drawAsciiDump(QPainter &painter, int64_t offset, int row, int64_t
 				}
 			}
 
-			const QString byteBuffer(printable ? QLatin1Char(ch) : QLatin1Char(unprintableChar_));
+			const QString byteBuffer(printable ? QChar::fromLatin1(ch) : QChar::fromLatin1(unprintableChar_));
 
 			painter.drawText(
 				drawLeft,
