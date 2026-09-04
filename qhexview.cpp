@@ -122,9 +122,9 @@ QString QHexView::formatAddress(address_t address) const {
 		const uint16_t lo = (address & 0xffff);
 
 		if (showAddressSeparator_) {
-			std::snprintf(buffer, sizeof(buffer), "%04x:%04x", hi, lo);
+			snprintf(buffer, sizeof(buffer), "%04x:%04x", hi, lo);
 		} else {
-			std::snprintf(buffer, sizeof(buffer), "%04x%04x", hi, lo);
+			snprintf(buffer, sizeof(buffer), "%04x%04x", hi, lo);
 		}
 	}
 		return QString::fromLocal8Bit(buffer);
@@ -134,15 +134,15 @@ QString QHexView::formatAddress(address_t address) const {
 
 		if (hideLeadingAddressZeros_) {
 			if (showAddressSeparator_) {
-				std::snprintf(buffer, sizeof(buffer), "%04x:%08x", (hi & 0xffff), lo);
+				snprintf(buffer, sizeof(buffer), "%04x:%08x", (hi & 0xffff), lo);
 			} else {
-				std::snprintf(buffer, sizeof(buffer), "%04x%08x", (hi & 0xffff), lo);
+				snprintf(buffer, sizeof(buffer), "%04x%08x", (hi & 0xffff), lo);
 			}
 		} else {
 			if (showAddressSeparator_) {
-				std::snprintf(buffer, sizeof(buffer), "%08x:%08x", hi, lo);
+				snprintf(buffer, sizeof(buffer), "%08x:%08x", hi, lo);
 			} else {
-				std::snprintf(buffer, sizeof(buffer), "%08x%08x", hi, lo);
+				snprintf(buffer, sizeof(buffer), "%08x%08x", hi, lo);
 			}
 		}
 	}
