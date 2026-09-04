@@ -33,7 +33,9 @@ The license chosen is at the discretion of the user of this software.
 #include <cctype>
 #include <climits>
 #include <cmath>
+#include <cstdio>
 #include <memory>
+#
 
 namespace {
 
